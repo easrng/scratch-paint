@@ -90,7 +90,7 @@ import PaintEditor from 'scratch-paint';
 ```
 
 `image`: may either be nothing, an SVG string or a base64 data URI)
-SVGs of up to size 480 x 360 will fit into the view window of the paint editor, while bitmaps of size up to 960 x 720 will fit into the paint editor. One unit of an SVG will appear twice as tall and wide as one unit of a bitmap. This quirky import behavior comes from needing to support legacy projects in Scratch.
+SVGs of up to size 640 x 360 will fit into the view window of the paint editor, while bitmaps of size up to 1280 x 720 will fit into the paint editor. One unit of an SVG will appear twice as tall and wide as one unit of a bitmap. This quirky import behavior comes from needing to support legacy projects in Scratch.
 
 `imageId`: If this parameter changes, then the paint editor will be cleared, the undo stack reset, and the image re-imported.
 

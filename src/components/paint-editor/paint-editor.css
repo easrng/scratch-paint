@@ -115,7 +115,7 @@ $border-radius: 0.25rem;
 }
 
 .canvas-container {
-    width: 480px;
+    width: 640px;
     height: 360px;
     box-sizing: content-box;
     border: 1px solid #e8edf1;

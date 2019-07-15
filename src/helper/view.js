@@ -6,9 +6,9 @@ import {getHitBounds} from './bitmap';
 // Vectors are imported and exported at SVG_ART_BOARD size.
 // Once they are imported however, both SVGs and bitmaps are on
 // canvases of ART_BOARD size.
-const SVG_ART_BOARD_WIDTH = 480;
+const SVG_ART_BOARD_WIDTH = 640;
 const SVG_ART_BOARD_HEIGHT = 360;
-const ART_BOARD_WIDTH = 480 * 2;
+const ART_BOARD_WIDTH = 640 * 2;
 const ART_BOARD_HEIGHT = 360 * 2;
 const PADDING_PERCENT = 25; // Padding as a percent of the max of width/height of the sprite
 const MIN_RATIO = .125; // Zoom in to at least 1/8 of the screen. This way you don't end up incredibly
