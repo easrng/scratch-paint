@@ -150,7 +150,7 @@ const _makeBackgroundPaper = function (width, height, color) {
         pathPoints.push(new paper.Point(x, y));
         y--;
     }
-    const vRect = new paper.Shape.Rectangle(new paper.Point(0, 0), new paper.Point(120, 90));
+    const vRect = new paper.Shape.Rectangle(new paper.Point(0, 0), new paper.Point(width, height));
     vRect.fillColor = '#fff';
     vRect.guide = true;
     vRect.locked = true;
