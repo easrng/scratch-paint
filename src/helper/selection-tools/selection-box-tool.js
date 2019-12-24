@@ -2,7 +2,7 @@ import paper from '@scratch/paper';
 import {rectSelect} from '../guides';
 import {clearSelection, processRectangularSelection} from '../selection';
 import {getRaster} from '../layer';
-import {ART_BOARD_WIDTH, ART_BOARD_HEIGHT} from '../view';
+import {artBoardWidth, artBoardHeight} from '../view';
 
 /** Tool to handle drag selection. A dotted line box appears and everything enclosed is selected. */
 class SelectionBoxTool {
@@ -50,8 +50,8 @@ class SelectionBoxTool {
                     Math.max(0, Math.round(this.selectionRect.bounds.topLeft.x)),
                     Math.max(0, Math.round(this.selectionRect.bounds.topLeft.y))),
                 to: new paper.Point(
-                    Math.min(ART_BOARD_WIDTH, Math.round(this.selectionRect.bounds.bottomRight.x)),
-                    Math.min(ART_BOARD_HEIGHT, Math.round(this.selectionRect.bounds.bottomRight.y)))
+                    Math.min(artBoardWidth(), Math.round(this.selectionRect.bounds.bottomRight.x)),
+                    Math.min(artBoardHeight(), Math.round(this.selectionRect.bounds.bottomRight.y)))
             });
 
             // Remove dotted rectangle

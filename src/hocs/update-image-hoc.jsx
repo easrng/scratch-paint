@@ -14,7 +14,7 @@ import {getRaster, hideGuideLayers, showGuideLayers} from '../helper/layer';
 import {commitRectToBitmap, commitOvalToBitmap, commitSelectionToBitmap, getHitBounds} from '../helper/bitmap';
 import {performSnapshot} from '../helper/undo';
 import {scaleWithStrokes} from '../helper/math';
-import {ART_BOARD_WIDTH, ART_BOARD_HEIGHT, SVG_ART_BOARD_WIDTH, SVG_ART_BOARD_HEIGHT} from '../helper/view';
+import {artBoardWidth, artBoardHeight, svgArtBoardWidth, svgArtBoardHeight} from '../helper/view';
 
 import Modes from '../lib/modes';
 import {BitmapModes} from '../lib/modes';
@@ -102,8 +102,8 @@ const UpdateImageHOC = function (WrappedComponent) {
             this.props.onUpdateImage(
                 false /* isVector */,
                 imageData,
-                (ART_BOARD_WIDTH / 2) - rect.x,
-                (ART_BOARD_HEIGHT / 2) - rect.y);
+                (artBoardWidth() / 2) - rect.x,
+                (artBoardHeight() / 2) - rect.y);
 
             if (!skipSnapshot) {
                 performSnapshot(this.props.undoSnapshot, Formats.BITMAP);
@@ -123,8 +123,8 @@ const UpdateImageHOC = function (WrappedComponent) {
                     bounds: 'content',
                     matrix: new paper.Matrix().translate(-bounds.x, -bounds.y)
                 }),
-                (SVG_ART_BOARD_WIDTH / 2) - bounds.x,
-                (SVG_ART_BOARD_HEIGHT / 2) - bounds.y);
+                (svgArtBoardWidth() / 2) - bounds.x,
+                (svgArtBoardHeight() / 2) - bounds.y);
             scaleWithStrokes(paper.project.activeLayer, 2, new paper.Point());
             paper.project.activeLayer.applyMatrix = true;
 

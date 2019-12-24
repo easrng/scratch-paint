@@ -43,6 +43,8 @@ import zoomInIcon from './icons/zoom-in.svg';
 import zoomOutIcon from './icons/zoom-out.svg';
 import zoomResetIcon from './icons/zoom-reset.svg';
 
+import {artBoardWidth, artBoardHeight} from '../../helper/view';
+
 const messages = defineMessages({
     bitmap: {
         defaultMessage: 'Convert to Bitmap',
@@ -202,6 +204,7 @@ const PaintEditorComponent = props => (
                     canvas={props.canvas}
                     hideScrollbars={props.isEyeDropping}
                     style={styles.canvasContainer}
+                    height={480 * artBoardHeight() / artBoardWidth() + 'px'}
                 >
                     <PaperCanvas
                         canvasRef={props.setCanvas}

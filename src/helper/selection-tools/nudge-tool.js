@@ -1,6 +1,6 @@
 import paper from '@scratch/paper';
 import {getSelectedRootItems} from '../selection';
-import {ART_BOARD_WIDTH, ART_BOARD_HEIGHT} from '../view';
+import {artBoardWidth, artBoardHeight} from '../view';
 
 const NUDGE_MORE_MULTIPLIER = 15;
 
@@ -28,7 +28,7 @@ class NudgeTool {
 
         const selected = getSelectedRootItems();
         if (selected.length === 0) return;
-        
+
         // Get bounds. Don't let item bounds go out of bounds.
         let rect;
         for (const item of selected) {
@@ -43,11 +43,11 @@ class NudgeTool {
         if (event.key === 'up') {
             translation = new paper.Point(0, -Math.min(nudgeAmount, rect.bottom - 1));
         } else if (event.key === 'down') {
-            translation = new paper.Point(0, Math.min(nudgeAmount, ART_BOARD_HEIGHT - rect.top - 1));
+            translation = new paper.Point(0, Math.min(nudgeAmount, artBoardHeight() - rect.top - 1));
         } else if (event.key === 'left') {
             translation = new paper.Point(-Math.min(nudgeAmount, rect.right - 1), 0);
         } else if (event.key === 'right') {
-            translation = new paper.Point(Math.min(nudgeAmount, ART_BOARD_WIDTH - rect.left - 1), 0);
+            translation = new paper.Point(Math.min(nudgeAmount, artBoardWidth() - rect.left - 1), 0);
         }
 
         if (translation) {

@@ -1,6 +1,6 @@
 import paper from '@scratch/paper';
 import {HANDLE_RATIO, snapDeltaToAngle} from '../math';
-import {ART_BOARD_WIDTH, ART_BOARD_HEIGHT} from '../view';
+import {artBoardWidth, artBoardHeight} from '../view';
 import {clearSelection, getSelectedLeafItems, getSelectedSegments} from '../selection';
 
 /** Subtool of ReshapeTool for moving control points. */
@@ -59,7 +59,7 @@ class PointTool {
             }
             hitProperties.hitResult.segment.selected = true;
         }
-        
+
         this.selectedItems = getSelectedLeafItems();
     }
     /**
@@ -144,16 +144,16 @@ class PointTool {
         this.deselectOnMouseUp = null;
         this.invertDeselect = false;
         this.deleteOnMouseUp = null;
-        
+
         const point = event.point;
-        point.x = Math.max(0, Math.min(point.x, ART_BOARD_WIDTH));
-        point.y = Math.max(0, Math.min(point.y, ART_BOARD_HEIGHT));
+        point.x = Math.max(0, Math.min(point.x, artBoardWidth()));
+        point.y = Math.max(0, Math.min(point.y, artBoardHeight()));
 
         if (!this.lastPoint) this.lastPoint = event.lastPoint;
         const dragVector = point.subtract(event.downPoint);
         const delta = point.subtract(this.lastPoint);
         this.lastPoint = point;
-        
+
         const selectedSegments = getSelectedSegments();
         for (const seg of selectedSegments) {
             // add the point of the segment before the drag started
@@ -171,7 +171,7 @@ class PointTool {
     }
     onMouseUp () {
         this.lastPoint = null;
-        
+
         // resetting the items and segments origin points for the next usage
         let moved = false;
         const selectedSegments = getSelectedSegments();

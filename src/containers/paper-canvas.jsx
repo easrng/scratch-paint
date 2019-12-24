@@ -11,7 +11,7 @@ import {undoSnapshot, clearUndoState} from '../reducers/undo';
 import {isGroup, ungroupItems} from '../helper/group';
 import {clearRaster, getRaster, setupLayers} from '../helper/layer';
 import {clearSelectedItems} from '../reducers/selected-items';
-import {ART_BOARD_WIDTH, ART_BOARD_HEIGHT, resetZoom, zoomToFit} from '../helper/view';
+import {artBoardWidth, artBoardHeight, resetZoom, zoomToFit} from '../helper/view';
 import {ensureClockwise, scaleWithStrokes} from '../helper/math';
 import {clearHoveredItem} from '../reducers/hover';
 import {clearPasteOffset} from '../reducers/clipboard';
@@ -128,12 +128,12 @@ class PaperCanvas extends React.Component {
 
                 getRaster().drawImage(
                     imgElement,
-                    (ART_BOARD_WIDTH / 2) - rotationCenterX,
-                    (ART_BOARD_HEIGHT / 2) - rotationCenterY);
+                    (artBoardWidth() / 2) - rotationCenterX,
+                    (artBoardHeight() / 2) - rotationCenterY);
                 getRaster().drawImage(
                     imgElement,
-                    (ART_BOARD_WIDTH / 2) - rotationCenterX,
-                    (ART_BOARD_HEIGHT / 2) - rotationCenterY);
+                    (artBoardWidth() / 2) - rotationCenterX,
+                    (artBoardHeight() / 2) - rotationCenterY);
                 this.maybeZoomToFit(true /* isBitmap */);
                 performSnapshot(this.props.undoSnapshot, Formats.BITMAP_SKIP_CONVERT);
             };
@@ -235,11 +235,11 @@ class PaperCanvas extends React.Component {
             if (viewBox && viewBox.length >= 2 && !isNaN(viewBox[0]) && !isNaN(viewBox[1])) {
                 rotationPoint = rotationPoint.subtract(viewBox[0], viewBox[1]);
             }
-            item.translate(new paper.Point(ART_BOARD_WIDTH / 2, ART_BOARD_HEIGHT / 2)
+            item.translate(new paper.Point(artBoardWidth() / 2, artBoardHeight() / 2)
                 .subtract(rotationPoint.multiply(2)));
         } else {
             // Center
-            item.translate(new paper.Point(ART_BOARD_WIDTH / 2, ART_BOARD_HEIGHT / 2)
+            item.translate(new paper.Point(artBoardWidth() / 2, artBoardHeight() / 2)
                 .subtract(itemWidth, itemHeight));
         }
         paper.project.activeLayer.insertChild(0, item);
@@ -265,10 +265,8 @@ class PaperCanvas extends React.Component {
         return (
             <canvas
                 className={styles.paperCanvas}
-                height="270px"
                 ref={this.setCanvas}
-                style={{cursor: this.props.cursor}}
-                width="480px"
+                style={{cursor: this.props.cursor, height: 480 * artBoardHeight() / artBoardWidth() + 'px'}}
             />
         );
     }

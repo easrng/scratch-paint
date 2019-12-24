@@ -6,6 +6,7 @@ import styles from './scrollable-canvas.css';
 const ScrollableCanvasComponent = props => (
     <div
         className={props.style}
+        style={{height: props.height}}
     >
         {props.children}
         <div

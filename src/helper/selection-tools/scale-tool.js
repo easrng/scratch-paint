@@ -1,6 +1,6 @@
 import paper from '@scratch/paper';
 import {getItems} from '../selection';
-import {ART_BOARD_WIDTH, ART_BOARD_HEIGHT} from '../view';
+import {artBoardWidth, artBoardHeight} from '../view';
 
 /**
  * Tool to handle scaling items by pulling on the handles around the edges of the bounding
@@ -70,8 +70,8 @@ class ScaleTool {
     onMouseDrag (event) {
         if (!this.active) return;
         const point = event.point;
-        point.x = Math.max(0, Math.min(point.x, ART_BOARD_WIDTH));
-        point.y = Math.max(0, Math.min(point.y, ART_BOARD_HEIGHT));
+        point.x = Math.max(0, Math.min(point.x, artBoardWidth()));
+        point.y = Math.max(0, Math.min(point.y, artBoardHeight()));
 
         if (!this.lastPoint) this.lastPoint = event.lastPoint;
         const delta = point.subtract(this.lastPoint);
@@ -135,7 +135,7 @@ class ScaleTool {
         }
         this.boundsPath.remove();
         this.boundsPath = null;
-        
+
         // mark text items as scaled (for later use on font size calc)
         for (let i = 0; i < this.itemGroup.children.length; i++) {
             const child = this.itemGroup.children[i];
@@ -154,7 +154,7 @@ class ScaleTool {
             this.itemGroup.layer.addChildren(this.itemGroup.children);
         }
         this.itemGroup.remove();
-        
+
         this.onUpdateImage();
         this.active = false;
     }

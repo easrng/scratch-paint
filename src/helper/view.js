@@ -6,10 +6,24 @@ import {getHitBounds} from './bitmap';
 // Vectors are imported and exported at SVG_ART_BOARD size.
 // Once they are imported however, both SVGs and bitmaps are on
 // canvases of ART_BOARD size.
-const SVG_ART_BOARD_WIDTH = 640;
-const SVG_ART_BOARD_HEIGHT = 360;
-const ART_BOARD_WIDTH = 640 * 2;
-const ART_BOARD_HEIGHT = 360 * 2;
+let artBoardWidth = 640;
+let artBoardHeight = 360;
+const svgArtBoardWidth = () => {
+    return artBoardWidth
+}
+const svgArtBoardHeight = () => {
+    return artBoardHeight
+}
+const getArtBoardWidth = () => {
+    return artBoardWidth * 2
+}
+const getArtBoardHeight = () => {
+    return artBoardHeight * 2
+}
+const setArtBoardSize = (width, height) => {
+    artBoardWidth = width
+    artBoardHeight = height
+}
 const PADDING_PERCENT = 25; // Padding as a percent of the max of width/height of the sprite
 const MIN_RATIO = .125; // Zoom in to at least 1/8 of the screen. This way you don't end up incredibly
 // zoomed in for tiny costumes.
@@ -22,11 +36,11 @@ const clampViewBounds = () => {
     if (top < 0) {
         paper.project.view.scrollBy(new paper.Point(0, -top));
     }
-    if (bottom > ART_BOARD_HEIGHT) {
-        paper.project.view.scrollBy(new paper.Point(0, ART_BOARD_HEIGHT - bottom));
+    if (bottom > getArtBoardHeight()) {
+        paper.project.view.scrollBy(new paper.Point(0, getArtBoardHeight() - bottom));
     }
-    if (right > ART_BOARD_WIDTH) {
-        paper.project.view.scrollBy(new paper.Point(ART_BOARD_WIDTH - right, 0));
+    if (right > getArtBoardWidth()) {
+        paper.project.view.scrollBy(new paper.Point(getArtBoardWidth() - right, 0));
     }
 };
 
@@ -35,7 +49,7 @@ const clampViewBounds = () => {
 const zoomOnFixedPoint = (deltaZoom, fixedPoint) => {
     const view = paper.view;
     const preZoomCenter = view.center;
-    const newZoom = Math.max(0.375, view.zoom + deltaZoom);
+    const newZoom = Math.max(0.5 * 480 / svgArtBoardWidth(), view.zoom + deltaZoom);
     const scaling = view.zoom / newZoom;
     const preZoomOffset = fixedPoint.subtract(preZoomCenter);
     const postZoomOffset = fixedPoint.subtract(preZoomOffset.multiply(scaling))
@@ -66,7 +80,7 @@ const zoomOnSelection = deltaZoom => {
 };
 
 const resetZoom = () => {
-    paper.project.view.zoom = 0.375;
+    paper.project.view.zoom = 0.5 * 480 / svgArtBoardWidth();
     clampViewBounds();
 };
 
@@ -85,8 +99,8 @@ const zoomToFit = isBitmap => {
     }
     if (bounds && bounds.width && bounds.height) {
         // Ratio of (sprite length plus padding on all sides) to art board length.
-        let ratio = Math.max(bounds.width * (1 + (2 * PADDING_PERCENT / 100)) / ART_BOARD_WIDTH,
-            bounds.height * (1 + (2 * PADDING_PERCENT / 100)) / ART_BOARD_HEIGHT);
+        let ratio = Math.max(bounds.width * (1 + (2 * PADDING_PERCENT / 100)) / getArtBoardWidth(),
+            bounds.height * (1 + (2 * PADDING_PERCENT / 100)) / getArtBoardHeight());
         // Clamp ratio
         ratio = Math.max(Math.min(1, ratio), MIN_RATIO);
         if (ratio < 1) {
@@ -98,10 +112,11 @@ const zoomToFit = isBitmap => {
 };
 
 export {
-    ART_BOARD_HEIGHT,
-    ART_BOARD_WIDTH,
-    SVG_ART_BOARD_WIDTH,
-    SVG_ART_BOARD_HEIGHT,
+    getArtBoardWidth as artBoardWidth,
+    getArtBoardHeight as artBoardHeight,
+    svgArtBoardWidth,
+    svgArtBoardHeight,
+    setArtBoardSize,
     clampViewBounds,
     pan,
     resetZoom,

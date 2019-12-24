@@ -20,7 +20,7 @@ import {setLayout} from '../reducers/layout';
 
 import {getSelectedLeafItems} from '../helper/selection';
 import {convertToBitmap, convertToVector} from '../helper/bitmap';
-import {resetZoom, zoomOnSelection} from '../helper/view';
+import {setArtBoardSize, resetZoom, zoomOnSelection} from '../helper/view';
 import EyeDropperTool from '../helper/tools/eye-dropper';
 
 import Modes from '../lib/modes';
@@ -94,6 +94,8 @@ class PaintEditor extends React.Component {
             colorInfo: null
         };
         this.props.setLayout(this.props.rtl ? 'rtl' : 'ltr');
+
+        setArtBoardSize(this.props.artBoardWidth, this.props.artBoardHeight);
     }
     componentDidMount () {
         document.addEventListener('keydown', this.props.onKeyPress);
