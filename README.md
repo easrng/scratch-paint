@@ -1,4 +1,9 @@
-# scratch-paint
+# scratch-paint (modded)
+
+See my fork of [scratch-gui](https://github.com/SheepTester/scratch-gui) for more info
+
+---
+
 #### Scratch-paint provides a paint editor React component that takes and outputs SVGs or PNGs. It can convert between vector and bitmap modes.
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/LLK/scratch-paint.svg)](https://greenkeeper.io/)
