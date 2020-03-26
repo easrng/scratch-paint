@@ -21,11 +21,12 @@ const getArtBoardHeight = () => {
     return artBoardHeight * 2
 };
 const setArtBoardSize = (width, height) => {
-    artBoardWidth = width
-    artBoardHeight = height
+    console.log(width, height);
+    artBoardWidth = width;
+    artBoardHeight = height;
 };
 const getCenter = () => {
-    return new paper.Point(artBoardWidth / 2, artBoardHeight / 2)
+    return new paper.Point(getArtBoardWidth() / 2, getArtBoardHeight() / 2);
 };
 const PADDING_PERCENT = 25; // Padding as a percent of the max of width/height of the sprite
 const MIN_RATIO = .125; // Zoom in to at least 1/8 of the screen. This way you don't end up incredibly

@@ -126,6 +126,8 @@ class MoveTool {
         point.x = Math.max(0, Math.min(point.x, artBoardWidth()));
         point.y = Math.max(0, Math.min(point.y, artBoardHeight()));
 
+        const CENTER = getCenter()
+
         const dragVector = point.subtract(event.downPoint);
         let snapVector;
 

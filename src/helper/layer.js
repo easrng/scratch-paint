@@ -224,7 +224,7 @@ const _makeCrosshair = function (opacity, parent) {
     crosshair.addChild(circle);
 
     setGuideItem(crosshair);
-    crosshair.position = CENTER;
+    crosshair.position = getCenter();
     crosshair.opacity = opacity;
     crosshair.parent = parent;
     crosshair.applyMatrix = false;
