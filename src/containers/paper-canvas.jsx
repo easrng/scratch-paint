@@ -11,7 +11,7 @@ import {undoSnapshot, clearUndoState} from '../reducers/undo';
 import {isGroup, ungroupItems} from '../helper/group';
 import {clearRaster, getRaster, setupLayers} from '../helper/layer';
 import {clearSelectedItems} from '../reducers/selected-items';
-import {artBoardWidth, artBoardHeight, resetZoom, zoomToFit} from '../helper/view';
+import {artBoardWidth, artBoardHeight, resetZoom, resizeCrosshair, zoomToFit} from '../helper/view';
 import {ensureClockwise, scaleWithStrokes} from '../helper/math';
 import {clearHoveredItem} from '../reducers/hover';
 import {clearPasteOffset} from '../reducers/clipboard';
@@ -97,7 +97,7 @@ class PaperCanvas extends React.Component {
         for (const layer of paper.project.layers) {
             if (layer.data.isRasterLayer) {
                 clearRaster();
-            } else if (!layer.data.isBackgroundGuideLayer) {
+            } else if (!layer.data.isBackgroundGuideLayer && !layer.data.isDragCrosshairLayer) {
                 layer.removeChildren();
             }
         }
@@ -151,6 +151,7 @@ class PaperCanvas extends React.Component {
         if (this.shouldZoomToFit instanceof paper.Matrix) {
             paper.view.matrix = this.shouldZoomToFit;
             this.props.updateViewBounds(paper.view.matrix);
+            resizeCrosshair();
         } else if (this.shouldZoomToFit === true) {
             zoomToFit(isBitmapMode);
             this.props.updateViewBounds(paper.view.matrix);

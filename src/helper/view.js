@@ -1,6 +1,6 @@
 import paper from '@scratch/paper';
 import {getSelectedRootItems} from './selection';
-import {getRaster} from './layer';
+import {CROSSHAIR_SIZE, getBackgroundGuideLayer, getDragCrosshairLayer, getRaster} from './layer';
 import {getHitBounds} from './bitmap';
 
 // Vectors are imported and exported at SVG_ART_BOARD size.
@@ -10,20 +10,23 @@ let artBoardWidth = 640;
 let artBoardHeight = 360;
 const svgArtBoardWidth = () => {
     return artBoardWidth
-}
+};
 const svgArtBoardHeight = () => {
     return artBoardHeight
-}
+};
 const getArtBoardWidth = () => {
     return artBoardWidth * 2
-}
+};
 const getArtBoardHeight = () => {
     return artBoardHeight * 2
-}
+};
 const setArtBoardSize = (width, height) => {
     artBoardWidth = width
     artBoardHeight = height
-}
+};
+const getCenter = () => {
+    return new paper.Point(artBoardWidth / 2, artBoardHeight / 2)
+};
 const PADDING_PERCENT = 25; // Padding as a percent of the max of width/height of the sprite
 const MIN_RATIO = .125; // Zoom in to at least 1/8 of the screen. This way you don't end up incredibly
 // zoomed in for tiny costumes.
@@ -44,6 +47,17 @@ const clampViewBounds = () => {
     }
 };
 
+const resizeCrosshair = () => {
+    if (getDragCrosshairLayer() && getDragCrosshairLayer().dragCrosshair) {
+        getDragCrosshairLayer().dragCrosshair.scale(
+            CROSSHAIR_SIZE / getDragCrosshairLayer().dragCrosshair.bounds.width / paper.view.zoom);
+    }
+    if (getBackgroundGuideLayer() && getBackgroundGuideLayer().dragCrosshair) {
+        getBackgroundGuideLayer().dragCrosshair.scale(
+            CROSSHAIR_SIZE / getBackgroundGuideLayer().dragCrosshair.bounds.width / paper.view.zoom);
+    }
+};
+
 // Zoom keeping a project-space point fixed.
 // This article was helpful http://matthiasberth.com/tech/stable-zoom-and-pan-in-paperjs
 const zoomOnFixedPoint = (deltaZoom, fixedPoint) => {
@@ -57,6 +71,7 @@ const zoomOnFixedPoint = (deltaZoom, fixedPoint) => {
     view.zoom = newZoom;
     view.translate(postZoomOffset.multiply(-1));
     clampViewBounds();
+    resizeCrosshair();
 };
 
 // Zoom keeping the selection center (if any) fixed.
@@ -81,6 +96,7 @@ const zoomOnSelection = deltaZoom => {
 
 const resetZoom = () => {
     paper.project.view.zoom = 0.5 * 480 / svgArtBoardWidth();
+    resizeCrosshair();
     clampViewBounds();
 };
 
@@ -106,6 +122,7 @@ const zoomToFit = isBitmap => {
         if (ratio < 1) {
             paper.view.center = bounds.center;
             paper.view.zoom = paper.view.zoom / ratio;
+            resizeCrosshair();
             clampViewBounds();
         }
     }
@@ -114,12 +131,14 @@ const zoomToFit = isBitmap => {
 export {
     getArtBoardWidth as artBoardWidth,
     getArtBoardHeight as artBoardHeight,
+    getCenter,
     svgArtBoardWidth,
     svgArtBoardHeight,
     setArtBoardSize,
     clampViewBounds,
     pan,
     resetZoom,
+    resizeCrosshair,
     zoomOnSelection,
     zoomOnFixedPoint,
     zoomToFit
