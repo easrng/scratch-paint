@@ -21,7 +21,6 @@ const getArtBoardHeight = () => {
     return artBoardHeight * 2
 };
 const setArtBoardSize = (width, height) => {
-    console.log(width, height);
     artBoardWidth = width;
     artBoardHeight = height;
 };
